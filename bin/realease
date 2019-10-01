@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+export_env_dir() {
+  env_dir=$1
+  whitelist_regex=${2:-''}
+  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
+}
+
+if [[ -z "${SLACK_DEPLOYMENT_WEBHOOK_URL}" ]]; then
+  echo "---> Notifying Slack of this deploy"
+  export_env_dir()
+  curl -X POST -H 'Content-type: application/json' --data '{"text":"$HEROKU_APP_NAME was just deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT"}' $SLACK_DEPLOYMENT_WEBHOOK_URL
+else
+  echo "---> Skipping Slack deployment notification"
+fi
