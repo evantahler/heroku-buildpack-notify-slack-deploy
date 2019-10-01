@@ -16,7 +16,7 @@ export_env_dir() {
 if [[ -z "${SLACK_DEPLOYMENT_WEBHOOK_URL}" ]]; then
   echo "---> Notifying Slack of this deploy"
   export_env_dir()
-  curl -X POST -H 'Content-type: application/json' --data '{"text":"$HEROKU_APP_NAME was just deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT"}' $SLACK_DEPLOYMENT_WEBHOOK_URL
+  curl -X POST -H 'Content-type: application/json' --data '{"text":"$HEROKU_APP_NAME was just deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT" ($HEROKU_SLUG_DESCRIPTION)}' $SLACK_DEPLOYMENT_WEBHOOK_URL
 else
   echo "---> Skipping Slack deployment notification"
 fi
