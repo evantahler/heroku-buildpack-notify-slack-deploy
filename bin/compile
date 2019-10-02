@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 export_env_dir() {
+  # from https://devcenter.heroku.com/articles/buildpack-api#bin-compile
   env_dir=$1
   whitelist_regex=${2:-''}
   blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
@@ -12,9 +13,9 @@ export_env_dir() {
   fi
 }
 
-export_env_dir()
+export_env_dir($3)
 
-SLACK_MESSAGE="$HEROKU_APP_NAME was just deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT ($HEROKU_SLUG_DESCRIPTION)"
+SLACK_MESSAGE="$HEROKU_APP_NAME was deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT ($HEROKU_SLUG_DESCRIPTION)"
 echo "-----> Notifying Slack of this deploy"
 echo "       $SLACK_MESSAGE"
 curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
