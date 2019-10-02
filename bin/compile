@@ -19,3 +19,5 @@ SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed - $HEROKU_SLUG_DESCRIPTION"
 echo "-----> Notifying Slack of this deploy"
 echo "       $SLACK_MESSAGE"
 curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
+echo ""
+echo ""
