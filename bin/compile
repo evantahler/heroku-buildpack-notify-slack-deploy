@@ -13,7 +13,7 @@ export_env_dir() {
   fi
 }
 
-export_env_dir($3)
+export_env_dir $3
 
 SLACK_MESSAGE="$HEROKU_APP_NAME was deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT ($HEROKU_SLUG_DESCRIPTION)"
 echo "-----> Notifying Slack of this deploy"
