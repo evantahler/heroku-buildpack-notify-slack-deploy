@@ -14,4 +14,5 @@ export_env_dir() {
 
 # we need to build the deploy message at the "compile" step to have access to the environment variables
 SLACK_MESSAGE="$HEROKU_APP_NAME was just deployed.  The latest deployed commit is $HEROKU_SLUG_COMMIT ($HEROKU_SLUG_DESCRIPTION)"
-echo $SLACK_MESSAGE > /tmp/slack_deployment_message
+echo "----> Notifying Slack of this deploy"
+curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL

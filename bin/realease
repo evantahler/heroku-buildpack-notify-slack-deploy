@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-if [[ -f "/tmp/slack_deployment_message" ]]; then
-  echo "---> Notifying Slack of this deploy"
-  SLACK_MESSAGE=`cat /tmp/slack_deployment_message`
-  curl -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
-else
-  echo "---> Skipping Slack deployment notification"
-fi
