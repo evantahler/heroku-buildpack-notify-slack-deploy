@@ -1,7 +1,30 @@
 #!/usr/bin/env bash
 
+export_env_dir() {
+  # from https://devcenter.heroku.com/articles/buildpack-api#bin-compile
+  env_dir=$1
+  whitelist_regex=${2:-''}
+  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
+}
+
+export_env_dir $3
+
 # this pack is valid for apps with runtime-dyno-metadata enabled
 if [[ -z "${HEROKU_APP_NAME}" ]]; then
+  SLACK_MESSAGE="starting deploy of *$HEROKU_APP_NAME*"
+  echo "-----> Notifying Slack that deploy is starting"
+  echo "       $SLACK_MESSAGE"
+  curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
+  echo ""
+  echo ""
+
   exit 0
 else
   exit 1

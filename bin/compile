@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 export_env_dir() {
   # from https://devcenter.heroku.com/articles/buildpack-api#bin-compile
   env_dir=$1
@@ -16,7 +17,7 @@ export_env_dir() {
 export_env_dir $3
 
 SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed - $HEROKU_SLUG_DESCRIPTION"
-echo "-----> Notifying Slack of this deploy"
+echo "-----> Notifying Slack that the deploy is complete"
 echo "       $SLACK_MESSAGE"
 curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
 echo ""
