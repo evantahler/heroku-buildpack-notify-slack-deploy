@@ -16,7 +16,14 @@ export_env_dir() {
 
 export_env_dir $3
 
-SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed - $HEROKU_SLUG_DESCRIPTION"
+COMMIT_JSON=$(curl -H "Authorization: token $SLINGSHOT_GITHUB_OAUTH_TOKEN" https://api.github.com/repos/slingshotinc/web-app/commits/$HEROKU_SLUG_COMMIT)
+AUTHOR_NAME=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['commit']['author']['name'])")
+AUTHOR_EMAIL=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['commit']['author']['email'])")
+COMMIT_MESSAGE=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['commit']['message'])")
+COMMIT_URL=$(echo "$COMMIT_JSON" | python3 -c "import sys, json; print(json.load(sys.stdin, strict=False)['html_url'])")
+
+SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed - $HEROKU_SLUG_DESCRIPTION\n>$AUTHOR_NAME - $AUTHOR_EMAIL\n\n\`\`\`\n$COMMIT_MESSAGE\n\`\`\`\n$COMMIT_URL"
+
 echo "-----> Notifying Slack that the deploy is complete"
 echo "       $SLACK_MESSAGE"
 curl -s -X POST -H 'Content-type: application/json' --data "{\"text\":\"$SLACK_MESSAGE\"}" $SLACK_DEPLOYMENT_WEBHOOK_URL
