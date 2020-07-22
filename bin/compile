@@ -21,6 +21,9 @@ SLACK_MESSAGE="*$HEROKU_APP_NAME* was deployed"
 if [[ -z "${DEPLOY_NOTIFY_GITHUB_AUTH_TOKEN}" || -z "${DEPLOY_NOTIFY_GITHUB_ORG}" || -z "${DEPLOY_NOTIFY_GITHUB_PROJECT}" ]]; then
   # Not loading Github Data
   SLACK_MESSAGE="$SLACK_MESSAGE"
+elif [[ -z "${SOURCE_VERSION}" ]]; then
+  # We don't have the current git sha
+  SLACK_MESSAGE="$SLACK_MESSAGE"
 else
   echo "-----> Loading commit information from Github"
   COMMIT_JSON=$(curl -H "Authorization: token $DEPLOY_NOTIFY_GITHUB_AUTH_TOKEN" https://api.github.com/repos/$DEPLOY_NOTIFY_GITHUB_ORG/$DEPLOY_NOTIFY_GITHUB_PROJECT/commits/$SOURCE_VERSION)
