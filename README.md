@@ -2,6 +2,8 @@
 
 This is a Heroku Buildpack you can add to your heroku deployments that will notify a slack channel every time your application is deployed.
 
+![screenshot](https://raw.githubusercontent.com/evantahler/heroku-buildpack-notify-slack-deploy/master/sceenshot.png)
+
 ## Configuring your Slack Applicaiton
 
 1. Visit https://api.slack.com/incoming-webhooks to create a new Slack Application which can recieve a webook. You only need the "Incomming Webhooks" feature.
