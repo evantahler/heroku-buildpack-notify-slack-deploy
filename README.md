@@ -20,6 +20,7 @@ This is a Heroku Buildpack you can add to your heroku deployments that will noti
 By default, there's very little information about the commit that we can get from Heroku. However, we can curl the Github API and try to learn more about the commit. If you set the following additional environment variables, we can load the commit information, committer, and URL from Github:
 
 - `DEPLOY_NOTIFY_GITHUB_AUTH_TOKEN`: A Github PAT Token. You can generate one [here](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
+Important note: you *must* grant _repo_ access when creating this PAT Token, or else it will default to "Public Access" and won't work!
 - `DEPLOY_NOTIFY_GITHUB_ORG`: The name of your Github Org (or Github User Name)
 - `DEPLOY_NOTIFY_GITHUB_PROJECT`: The name of your Github Project
 
