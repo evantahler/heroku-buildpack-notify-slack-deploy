@@ -15,7 +15,7 @@ This is a Heroku Buildpack you can add to your Heroku deployments that will noti
 
 1. Enable Dyno Metadata for your application `heroku labs:enable runtime-dyno-metadata`
 1. Save your new webook URL as a Heroku config setting for the variable`SLACK_DEPLOYMENT_WEBHOOK_URL`, i.e.: `heroku config:set SLACK_DEPLOYMENT_WEBHOOK_URL="https://hooks.slack.com/services/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S"`
-1. Add this buildpack: `heroku buildpacks:set https://github.com/evantahler/heroku-buildpack-notify-slack-deploy.git` (or add it via the Heroku dashboard if you have multiple buildpacks).  
+1. Add this buildpack via the Heroku dashboard (the `heroku buildpack:set` command will replace any buildpacks you already have).  
   * **Note:** Be sure that this buildpack is the final buildpack in your app - the order matters!
 
 ![buildpack](https://raw.githubusercontent.com/evantahler/heroku-buildpack-notify-slack-deploy/master/buildpack.png)
